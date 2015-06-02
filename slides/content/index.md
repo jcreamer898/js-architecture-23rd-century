@@ -5,6 +5,19 @@ class: center, middle
 ![](images/enterprise.jpg)
 
 ---
+
+# whoami
+
+* Jonathan Creamer
+* Senior Front End Engineer at Lonely Planet
+
+<img src="images/lonelyplanet_bw.png" style="width: 10em" />
+
+* Love JavaScript
+* Nashville, TN
+
+---
+
 name: agenda
 
 # Agenda
@@ -38,6 +51,7 @@ class: left
 * Function all the things
 * `window` stores globals to use in other files
 * Huge files with thousands of lines of code
+* Browser issues
 
 ---
 name: globals
@@ -164,7 +178,17 @@ class: left
 * Code gets coupled
 * Not testable
 * Unmaintainable
-* If we were going to survive a 5 year mission to deep space, things had to change
+* If we were going to survive a 5-7 year mission to deep space, things had to change
+
+---
+
+# Deep space
+
+* Web applications have grown
+* JavaScript has grown along with them
+* Always bet on JavaScript
+* Single page applications get huge
+* Need for better architecture
 
 ---
 class: center, middle
@@ -188,8 +212,9 @@ name: design-patterns-constructor
 
 # Constructor Pattern
 
+* Built-in feature
 * JavaScript can be written in an OO-ish way
-* No such thing as "classes", it's "prototypes"
+* No such thing as "classes", but there is a prototype thing
 * You can create a `function` *constructor* which is class-ish
 * Use with the `new` keyword to create instances
 * Can separate into multiple files to help separate concerns better
@@ -235,6 +260,7 @@ TorpedoLauncher.prototype.fire = function() {
 ```
 
 * This constructor gets instantiated and passed into the `Starship` constructor
+* Because of the logical code separation, files can be separated
 
 ```js
 * var ship = new Ship(new TorpedoLauncher());
@@ -287,20 +313,28 @@ class: center, middle
 ---
 name: design-patterns-constructor-woes
 
-# Cons of Constructors
+# Better, but still a ways to go
 
+* Need something other mechanism to fetch them
 * Relies on global variables for module communication
-* Can't really have private methods on a constructor
-* OO-ish? Some people don't like it since JS is dynamic
+* Inheritance is a bit ugly
 
 ---
+class: center, middle
+
+# Modules
+
+---
+class: left
 name: design-patterns-module
 
 # Module Patterns
 
 * Allows for "private" functions
 * Helps group code into modules
-* Basic modules to AMD and CommonJS
+* Makes code more maintainable
+* Basic module design pattern
+* AMD and CommonJS
 
 ---
 name: design-patterns-revealing-module
@@ -325,6 +359,34 @@ var torpedoLauncher = (function() {
 * Creates a **closure** over the variable
 * The object returned is the API
 * No need to call `new` on the API either
+
+---
+name: design-patterns-revealing-module
+
+# Revealing Prototype Pattern
+
+```js
+var TorpedoLauncher = (function() {
+  var shotsRemaining = 10;
+
+  var fire = function() {
+    shotsRemaining -= 1;
+  };
+
+  var TorpedoLauncher = function() {};
+
+  TorpedoLauncher.prototype.fire = function() {
+    fire();
+  };
+
+  return TorpedoLauncher;
+}());
+
+var launcher = new TorpedoLauncher();
+```
+
+* Similar, just return a constructor
+* `fire`, and `shotsRemaining` are private
 
 ---
 name: design-patterns-namespace-intro
@@ -373,7 +435,7 @@ NS.Owners.starFleet = (function() {
 NS.Owners.starFleet.addShip(new NS.Ships.ConstitutionClass());
 ```
 
-* Can add things each namespace
+* Can add things to each namespace
 
 ---
 
@@ -387,15 +449,65 @@ NS.Owners.starFleet.addShip(new NS.Ships.ConstitutionClass());
 ...
 ```
 
+* Still relying on globals even though they're minimized
 * Have to manually maintain a dependency chain with script tags
 * If you put one out of order you can create bugs
 * LOTS of script tags potentially if you want to properly separate concerns
-* Still relying on globals even though they're minimized
+
 ---
+
+class: center, middle
+
+# Organize with script tags?!
+
+![](images/namespace-spock.gif)
+
+---
+
+class: left
 
 # CommonJS
 
 * A group got together and decided we needed a module specification
+* Node.js uses this type of module
+
+---
+
+# CommonJS Module
+
+```js
+// ships/constitution_class.js
+var StarShip = require("ships/starship");
+
+var ConstitutionClass = function() {};
+// ... inherit StarShip
+
+ConstitutionClass.prototype.warp = function() {};
+
+module.exports = StarShip;
+```
+
+* Utilize `require` to fetch modules
+* `module.exports` can return a constructor, or any object
+
+---
+
+# CommonJS Module
+
+```js
+// index.js
+var ConstitutionClass = require("ships/constitution_class");
+
+var enterprise = new ConstitutionClass();
+
+enterprise.captain = "Kirk";
+
+module.exports = {
+  beginMission: function() {
+    enterprise.warp();
+  }
+};
+```
 
 ---
 
@@ -459,7 +571,7 @@ name: require-module-dependency
 # Require.js module with dependency
 
 ```js
-// ships/starship.js
+// ships/constitution_class.js
 define(function(require) {
   var StarShip = require("ships/starship.js");
 
@@ -478,40 +590,396 @@ define(function(require) {
 * Use `require` to retrieve other modules
 
 ---
+
+# Problems with AMD
+
+* Requires a special type of syntax
+* Not native to the JavaScript
+* Several different implementations of it
+
+---
 class: center, middle
 
-# Architecture Patterns
+# Can we do even better?...
+
+![](images/modules-group-stare.gif)
+
+
+---
+class: center, middle
+
+# 24th Century
+## The Next Generation
+
+---
+
+# ES6/2015
+
+> "TO BOLDLY GO WHERE NO MAN HAS GONE BEFORE..."
+
+* Several years in the making
+* Been on ES5 for a long time now. Since December 3, 2009.
+* ES Harmony became 6 which became 2015 (June it's "[done](https://people.mozilla.org/~jorendorff/es6-draft.html)")
+* Many great new language features, including native modules, and classes
 
 ---
 class: left
-# Architecture Patterns
 
-* MVC, MVP, MVVM
+# Add some `class` to JavaScript
+
+```js
+class StarShip {
+  constructor(options) {
+    let { captain, weaponSystems = {}, maxWarp = 5 } = options;
+
+    this.captain = captain;
+    this.firstOfficer = firstOfficer;
+    this.weaponSystems = weaponSystems;
+  }
+  fire(system) {
+    this.weaponSystems[system].fire();
+  }
+  fireAll() {
+    for(let system of this.weaponSystems) {
+      this.weaponSystems[system].fire();
+    }
+  }
+  warp(speed) {
+    if (speed > this.maxWarp) {
+      throw "I can't do it captain, I don't have the power!"
+    }
+  }
+}
+```
+
+* Sugar for creating constructors
+* Much cleaner syntax
+
+---
+# constructor
+
+```js
+constructor(options) {
+  let { captain, weaponSystems = {}, maxWarp = 5 } = options;
+
+  this.captain = captain;
+  this.firstOfficer = firstOfficer;
+  this.weaponSystems = weaponSystems;
+}
+```
+---
+
+class: center, middle
+
+# ES2015 Native Classes
+
+![](images/es6-classes-picard.gif)
 
 ---
 
+# Better inheritance
 
-# Folder Structure
+```javascript
+class GalaxyClass extends Starship {
+  deflectorShields() {
+    // ...
+  }
+  warp(speed) {
+    if (!speed) {
+      super.warp(9.8);
+    }
+  }
+}
+
+let enterprise = new GalaxyClass({
+  captain: "Jean Luc Picard",
+  weaponSystems: { TorpedoLauncher, PhaserArrays }
+});
+
+enterprise.fire("PhaserArrays");
+```
+
+* Use `extends` for setting up inheritance
+* Much less confusing to inherit
+* Use `super` to call parent methods
 
 ---
+class: center, middle
 
-# ES6 Classes
+# Mind Blown
+
+![](images/mind-blown.gif)
 
 ---
+class: left
 
 # ES6 Modules
 
+```js
+class StarShip {
+  // ...
+}
+
+export default StarShip;
+```
+
+```js
+import StarShip from "ships/starship";
+
+class GalaxyClass extends StarShip {
+
+}
+
+export default GalaxyClass;
+```
+
+* A native module system for JavaScript!
+* Many ways to return module
+* default keyword for what gets imported
+
 ---
 
-# 24th Century
+# export function
 
+```js
+export default function() {
+  // ...
+}
+```
+
+* Export a function
+
+---
+
+# export multiple
+
+```js
+// utils/captains_log.js
+
+export function alert() {
+
+};
+
+export function log() {
+
+};
+```
+
+* Use destructuring to import
+
+```js
+import { log, alert } from "utils/captains_log";
+```
+
+---
+class: center, middle
+
+### When you have dreams about new JS features and remember you still have to support IE8...
+
+![](images/picard-surprise.gif)
+
+---
+class: center, middle
+
+# Transpilers and Bundlers
 
 ---
 class: left
 
-# WebPack
+# Transpilers
 
-> "Damn it man, I'm a doctor not a scientist" McCoy
+* With Grunt and Gulp we're used to "compiling" JavaScript now
+* Transpiling allows different syntax to compile to JavaScript
+* React(JSX), CoffeeScript (Ruby-ish), TypeScript (C#-ish)
+* Natural evolution is to transpile modern ES2015
+
+---
+
+class: left
+
+# Babel
+
+> "Make it so." Jean Luc Picard
+
+* Transpiles modern JavaScript to Legacy JavaScript
+* Runs with node, grunt tasks, or Browserify/Webpack type bundlers
+* Has polyfills for older browsers
+* Try it at [Babeljs.io](http://babeljs.io)
+
+---
+# Example
+
+```js
+class StarShip {}
+class GalaxyClass extends StarShip {}
+
+let ship = new StarShip()
+```
+
+* Becomes...
+
+---
+
+# Transpiled
+
+```js
+"use strict";
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var StarShip = function StarShip() {
+  _classCallCheck(this, StarShip);
+};
+
+var GalaxyClass = (function (_StarShip) {
+  function GalaxyClass() {
+    _classCallCheck(this, GalaxyClass);
+
+    if (_StarShip != null) {
+      _StarShip.apply(this, arguments);
+    }
+  }
+
+  _inherits(GalaxyClass, _StarShip);
+
+  return GalaxyClass;
+})(StarShip);
+
+var ship = new StarShip();
+```
+
+---
+
+# WebPack FTW
+
+* A static asset bundler
+* Takes any static asset, passes it through a loader
+* Creates bundles
+* Extremely flexible
+* Can write code in CommonJS, or AMD out of the box
+* Use Babel-Loader for ES6
+
+---
+
+# Get Started
+
+```shell
+npm install -g webpack
+npm install babel-loader
+```
+
+* Install WebPack globally
+* Install Babel Loader locally
+
+---
+
+# Get Started
+
+```js
+module.exports = {
+  entry: {
+    "main": "index"
+  },
+  context: path.join(__dirname, "js"),
+  output: {
+    path: path.join(__dirname, "dist"),
+    filename: "[name].js"
+  },
+  resolve: {
+    root: [path.join(__dirname, "js")],
+    extensions: [".js"]
+  },
+  module: {
+    loaders: [{
+      test: /\.js$/,
+      loader: "babel-loader"
+    }]
+  }
+};
+```
+
+* Create a `webpack.config.js` file
+
+---
+
+# Get Started
+
+```js
+module.exports = {
+  entry: {
+    "main": "index"
+  },
+  context: path.join(__dirname, "js"),
+  // ...
+};
+```
+
+* Entry is an object of all the main "entries" in your app
+* Context is the path where your entries live
+
+---
+
+# Get Started
+
+```js
+module.exports = {
+  output: {
+    path: path.join(__dirname, "dist"),
+    filename: "[name].js"
+  },
+  // ...
+};
+```
+
+* Output is where your bundles will go
+
+---
+
+# Get Started
+
+```js
+module.exports = {
+  resolve: {
+    root: [path.join(__dirname, "js")],
+    extensions: [".js"]
+  },
+  // ...
+};
+```
+
+* Root is the base path of where modules will load from
+* Extensions makes it so you don't have to have them in code
+
+---
+
+# Get Started
+
+```js
+module: {
+  loaders: [{
+    test: /\.js$/,
+    loader: "babel-loader"
+  }]
+}
+```
+
+* Pass in an array of loaders
+* Use `test` to take any file with that extension and push it through the loader
+* Here we're using the `babel-loader`
+
+---
+
+# Get Started
+
+```bash
+webpack
+```
+
+* Now just run it!
+* Should have an output at `dist`
+
 ---
 
 class: left
