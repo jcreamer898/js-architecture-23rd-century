@@ -880,21 +880,17 @@ npm install babel-loader
 ```js
 module.exports = {
   entry: {
-    "main": "index"
+    app: "./js/app"
   },
-  context: path.join(__dirname, "js"),
   output: {
-    path: path.join(__dirname, "dist"),
+    path: "./dist",
     filename: "[name].js"
-  },
-  resolve: {
-    root: [path.join(__dirname, "js")],
-    extensions: [".js"]
   },
   module: {
     loaders: [{
       test: /\.js$/,
-      loader: "babel-loader"
+      exclude: /(node_modules|bower_components)/,
+      loader: "babel?stage=0"
     }]
   }
 };
@@ -909,15 +905,15 @@ module.exports = {
 ```js
 module.exports = {
   entry: {
-    "main": "index"
+    app: "./js/app"
   },
-  context: path.join(__dirname, "js"),
   // ...
 };
 ```
 
 * Entry is an object of all the main "entries" in your app
-* Context is the path where your entries live
+* Can have multiple
+* Correspond to pages, vendor bundles, etc
 
 ---
 
@@ -926,7 +922,7 @@ module.exports = {
 ```js
 module.exports = {
   output: {
-    path: path.join(__dirname, "dist"),
+    path: "./dist",
     filename: "[name].js"
   },
   // ...
@@ -934,23 +930,8 @@ module.exports = {
 ```
 
 * Output is where your bundles will go
-
----
-
-# Get Started
-
-```js
-module.exports = {
-  resolve: {
-    root: [path.join(__dirname, "js")],
-    extensions: [".js"]
-  },
-  // ...
-};
-```
-
-* Root is the base path of where modules will load from
-* Extensions makes it so you don't have to have them in code
+* Can use placeholders like `[name]`
+* Will output `./dist/app.js` corresponding to entry names
 
 ---
 
@@ -960,7 +941,8 @@ module.exports = {
 module: {
   loaders: [{
     test: /\.js$/,
-    loader: "babel-loader"
+    exclude: /(node_modules|bower_components)/,
+    loader: "babel?stage=0"
   }]
 }
 ```
@@ -979,6 +961,12 @@ webpack
 
 * Now just run it!
 * Should have an output at `dist`
+* Transpiled JS
+
+---
+class: middle, center
+
+# Demo
 
 ---
 
@@ -989,3 +977,13 @@ class: left
 > "When you have eliminated the impossible, whatever remains, however improbable, must be the truth." Spock
 
 * It is possible with WebPack
+
+---
+
+# Plugins
+
+* Many different webpack Plugins
+* Easy to install and use
+* `CommonsChunk`,
+
+---

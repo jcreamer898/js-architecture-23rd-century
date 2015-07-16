@@ -1,6 +1,10 @@
 class StarShip {
   constructor(options) {
-    let { captain, weaponSystems = {}, maxWarp = 5 } = options;
+    let {
+      captain, firstOfficer,
+      weaponSystems = {},
+      maxWarp = 5,
+    } = options;
 
     this.captain = captain;
     this.firstOfficer = firstOfficer;

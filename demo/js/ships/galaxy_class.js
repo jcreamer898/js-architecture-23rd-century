@@ -1,6 +1,6 @@
 import StarShip from "./starship";
 
-class GalaxyClass extends Starship {
+class GalaxyClass extends StarShip {
   deflectorShields() {
     // ...
   }

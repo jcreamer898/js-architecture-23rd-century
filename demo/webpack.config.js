@@ -2,16 +2,11 @@ var path = require("path");
 
 module.exports = {
   entry: {
-    "main": "index"
+    "app": "./js/index"
   },
-  context: path.join(__dirname, "js"),
   output: {
-    path: path.join(__dirname, "dist"),
+    path: "./dist",
     filename: "[name].js"
-  },
-  resolve: {
-    root: [path.join(__dirname, "js")],
-    extensions: [".js"]
   },
   module: {
     loaders: [{
