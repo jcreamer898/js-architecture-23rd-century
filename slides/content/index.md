@@ -623,15 +623,159 @@ class: center, middle
 * Many great new language features, including native modules, and classes
 
 ---
+
+# String Templates
+
+```js
+let message = `${date}: ${msg}`,
+```
+
+* No more string addition
+
+---
+
+# `let` and `const`
+
+```js
+let captainsLog = (function() {
+  const messages = [];
+
+  return {
+    add: function(msg) {
+      if (msg) {
+        let message = `${date}: ${msg}`,
+            date = new Date();
+
+        messages.push(message);
+        return message;
+      }
+    }
+  }
+}());
+```
+
+* Block scope instead of only function scope
+* Use `const` when you know a value won't change
+* Use `let` for most everything though
+* Use `var` sparingly and only for legacy
+* Can call `push` on the array, can't change reference
+
+---
+
+# `let`
+
+```js
+for (let i = 0; i < messages.length; i++) {
+  // ...
+}
+i; // undefined
+```
+
+* Declare variables for loops
+
+---
+
+# Arrow Functions
+
+```js
+setTimeout(() => {
+  // ...
+}, 0);
+
+$(".warp").on("click", (e) => console.log(e.target));
+
+let fn = () => {};
+```
+
+* Don't have to use `function` as often
+* Can omit `{}`'s
+* Will return the value
+
+---
+
+# Default Parameters
+
+```js
+let warp = (speed = 5) => {
+  // ...
+};
+warp();
+warp(9.8);
+```
+
+* `speed` defaults to 5
+* No more `speed = speed || 5;`
+
+---
+
+# Object keys
+
+```js
+let torpedos = new TorpedoLauncher(),
+    phasers = new Phasers();
+
+let weapons = { torpedos, phasers };
+
+// same as { torpedos: torpedos, phasers: phasers }
+```
+
+* Can omit value if key is the same
+
+---
+
+# Destructuring Assignment
+
+```js
+let [first, second] = ["humans", "klingons"];
+```
+
+* `first` is "humans"
+* `second` is "klingons"
+
+---
+
+# Destructuring Assignment
+
+```js
+let [first, ..rest] = ["humans", "klingons", /* ... */];
+```
+
+* Combine with the new "rest" parameter
+* `first` is "humans"
+* `rest` is all the rest
+
+---
+
+# Object Destructuring
+
+```js
+let options = {
+  captain: "Jean Luc Picard",
+  firstOfficer: "William Riker",
+  weapons: { torpedos, phasers }
+};
+
+// ...
+
+let { captain, firstOfficer, weapons } = options;
+```
+
+* Pull values out of objects
+* Creates variables
+
+---
 class: left
 
 # Add some `class` to JavaScript
 
 ```js
 class StarShip {
-  constructor(options) {
-    let { captain, weaponSystems = {}, maxWarp = 5 } = options;
-
+  constructor({
+      captain,
+      firstOfficer,
+      weaponSystems = {},
+      maxWarp = 5,
+    }) {
     this.captain = captain;
     this.firstOfficer = firstOfficer;
     this.weaponSystems = weaponSystems;
@@ -644,7 +788,7 @@ class StarShip {
       this.weaponSystems[system].fire();
     }
   }
-  warp(speed) {
+  warp(speed = 3) {
     if (speed > this.maxWarp) {
       throw "I can't do it captain, I don't have the power!"
     }
@@ -656,17 +800,60 @@ class StarShip {
 * Much cleaner syntax
 
 ---
+
+# Prototype Functions
+
+```js
+fire(system) {
+  this.weaponSystems[system].fire();
+}
+```
+
+* No `,`'s or `:`'s
+* `this` is bound correctly
+* Methods defined on the `protptype`
+
+---
 # constructor
 
 ```js
-constructor(options) {
-  let { captain, weaponSystems = {}, maxWarp = 5 } = options;
-
+constructor({
+    captain,
+    firstOfficer,
+    weaponSystems = {},
+    maxWarp = 5,
+  }) {
   this.captain = captain;
   this.firstOfficer = firstOfficer;
   this.weaponSystems = weaponSystems;
 }
 ```
+
+* This fires when you call `new Starship`
+
+---
+
+# Destructuring with default parameters
+
+```js
+constructor({
+    captain,
+    firstOfficer,
+    weaponSystems = {},
+    maxWarp = 5,
+  }) {
+  this.captain = captain;
+  this.firstOfficer = firstOfficer;
+  this.weaponSystems = weaponSystems;
+  this.maxWarp = maxWarp;
+}
+```
+
+* Easier way to handle options objects
+* Pull values out of the object passed in
+* Declares local variables
+* Sets defaults if they are not passed in
+
 ---
 
 class: center, middle
@@ -681,22 +868,21 @@ class: center, middle
 
 ```javascript
 class GalaxyClass extends Starship {
-  deflectorShields() {
-    // ...
-  }
-  warp(speed) {
-    if (!speed) {
-      super.warp(9.8);
-    }
+  // .. defined other methods
+  warp(speed = 9.8) {
+    super.warp(speed);
   }
 }
+let torpedos = new TorpedoLauncher(),
+    phasers = new Phasers();
 
 let enterprise = new GalaxyClass({
   captain: "Jean Luc Picard",
-  weaponSystems: { TorpedoLauncher, PhaserArrays }
+  firstOfficer: "William Riker"
+  weaponSystems: { torpedos, phasers };
 });
 
-enterprise.fire("PhaserArrays");
+enterprise.fire("phasers");
 ```
 
 * Use `extends` for setting up inheritance
@@ -727,7 +913,7 @@ export default StarShip;
 import StarShip from "ships/starship";
 
 class GalaxyClass extends StarShip {
-
+  // ...
 }
 
 export default GalaxyClass;
@@ -735,7 +921,7 @@ export default GalaxyClass;
 
 * A native module system for JavaScript!
 * Many ways to return module
-* default keyword for what gets imported
+* `default` keyword for what gets imported
 
 ---
 

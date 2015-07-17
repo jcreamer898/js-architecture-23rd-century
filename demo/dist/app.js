@@ -58,13 +58,11 @@
 
 	var enterprise = new _shipsGalaxy_class2["default"]({
 	  captain: "Jean Luc Picard",
+	  firstOfficer: "William Riker",
 	  weaponSystems: { torpedos: new _weaponsTorpedo_launcher2["default"]() }
 	});
 
 	enterprise.fire("torpedos");
-
-	console.log(enterprise.weaponSystems.torpedos.shotsRemaining);
-
 	enterprise.warp();
 
 /***/ },
@@ -135,19 +133,20 @@
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 	var StarShip = (function () {
-	  function StarShip(options) {
-	    _classCallCheck(this, StarShip);
+	  function StarShip(_ref) {
+	    var captain = _ref.captain;
+	    var firstOfficer = _ref.firstOfficer;
+	    var _ref$weaponSystems = _ref.weaponSystems;
+	    var weaponSystems = _ref$weaponSystems === undefined ? {} : _ref$weaponSystems;
+	    var _ref$maxWarp = _ref.maxWarp;
+	    var maxWarp = _ref$maxWarp === undefined ? 5 : _ref$maxWarp;
 
-	    var captain = options.captain;
-	    var firstOfficer = options.firstOfficer;
-	    var _options$weaponSystems = options.weaponSystems;
-	    var weaponSystems = _options$weaponSystems === undefined ? {} : _options$weaponSystems;
-	    var _options$maxWarp = options.maxWarp;
-	    var maxWarp = _options$maxWarp === undefined ? 5 : _options$maxWarp;
+	    _classCallCheck(this, StarShip);
 
 	    this.captain = captain;
 	    this.firstOfficer = firstOfficer;
 	    this.weaponSystems = weaponSystems;
+	    this.maxWarp = maxWarp;
 	  }
 
 	  _createClass(StarShip, [{
@@ -207,13 +206,29 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	var TorpedoLauncher = function TorpedoLauncher() {
-	  this.shotsRemaining = 10;
-	};
 
-	TorpedoLauncher.prototype.fire = function () {
-	  this.shotsRemaining -= 1;
-	};
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	var TorpedoLauncher = (function () {
+	  function TorpedoLauncher() {
+	    _classCallCheck(this, TorpedoLauncher);
+
+	    this.shotsRemaining = 10;
+	  }
+
+	  _createClass(TorpedoLauncher, [{
+	    key: "fire",
+	    value: function fire() {
+	      this.shotsRemaining -= 1;
+
+	      console.log(this.shotsRemaining + " torpedos left");
+	    }
+	  }]);
+
+	  return TorpedoLauncher;
+	})();
 
 	exports["default"] = TorpedoLauncher;
 	module.exports = exports["default"];
