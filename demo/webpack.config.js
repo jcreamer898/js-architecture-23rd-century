@@ -2,7 +2,9 @@ var path = require("path");
 
 module.exports = {
   entry: {
-    "app": "./js/index"
+    "app": "./js/index",
+    "starfleet": "./js/starfleet/index",
+    "captainsLog": "./js/captainsLog/index"
   },
   output: {
     path: "./dist",

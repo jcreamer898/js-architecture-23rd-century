@@ -627,6 +627,9 @@ class: center, middle
 # String Templates
 
 ```js
+let date = new Date(),
+    msg = "Boldly go...";
+
 let message = `${date}: ${msg}`,
 ```
 
@@ -1121,7 +1124,7 @@ module.exports = {
 
 ---
 
-# Get Started
+# Loaders
 
 ```js
 module: {
@@ -1136,6 +1139,24 @@ module: {
 * Pass in an array of loaders
 * Use `test` to take any file with that extension and push it through the loader
 * Here we're using the `babel-loader`
+---
+
+# Loaders
+
+```js
+module: {
+  loaders: [{
+    test: /\.scss$/,
+    loader: "style!css!sass"
+  }]
+}
+```
+
+* Use `node-sass`
+* `sass-loader` compiles
+* `css-loader` sends compiled CSS to...
+* `style-loader` inlines CSS
+
 
 ---
 
@@ -1166,10 +1187,58 @@ class: left
 
 ---
 
+# Multi-Page Bundling
+
+```js
+entry: {
+  "home": "./js/index",
+  "starfleet": "./js/about/index",
+  "captainsLog": "./js/captains_log/index"
+},
+```
+
+* Divide your app with entries
+
+---
+
 # Plugins
 
 * Many different webpack Plugins
 * Easy to install and use
-* `CommonsChunk`,
+* `CommonsChunk`, `Uglify`, `ExtractTextPlugin`
+
 
 ---
+
+# CommonsChunk
+
+```js
+entry: {
+  common: [],
+  /* ... */
+},
+plugins: [new webpack.optimize.CommonsChunkPlugin({
+  name: "common",
+  minChunks: 2
+})]
+```
+
+* Create a "common" bundle
+* Can default with jQuery, etc
+* Will extract common modules
+
+---
+
+# Resources
+
+* [WebPack](http://webpack.github.io)
+* Awesome Pete Hunt [Instgram talk](https://www.youtube.com/watch?v=VkTCL6Nqm6Y)
+
+---
+class: center, middle
+
+# Thanks
+
+### [@jcreamer898](http://twitter.com/jcreamer898)
+
+![](images/picard-clap.gif)
