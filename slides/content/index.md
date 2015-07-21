@@ -24,9 +24,8 @@ name: agenda
 
 1. History
 1. Design/Architecture patterns
-1. Folder organization
 1. AMD/CommonJS
-1. 24th Century ES6 classes and modules
+1. 24th Century ES6, classes and modules
 1. How to use now! Hint hint: WebPack + Babel FTW
 
 ???
@@ -59,13 +58,12 @@ class: left
 
 # Globals on the `window`
 
-* Cause naming collisions
-* Really can get tricky with 3rd party libs
-
 ```js
 var utils = {}; // or basically window.utils
 ```
 
+* Cause naming collisions
+* Really can get tricky with 3rd party libs
 * Other libraries can also use `utils`
 
 ```htm
@@ -84,9 +82,13 @@ var Starship = function() {}; // OR Really just window.Starship
 // main.js
 var ship = new Starship(); // Relies on a global
 ```
-* Code spread across multiple files has to communicate via globals
+
 * Bad practice
-* Can be frustrating to debug
+* Frustrating to debug
+
+???
+
+* Code spread across multiple files has to communicate via globals
 
 ---
 name: globals-pock
@@ -101,8 +103,8 @@ class: left
 
 ## `Function` overload
 
-* Functions were used for everything
-* Once again declared on the global `window`
+* Functions for everything
+* Declared on `window`
 * Again, frustrating to debug
 * Spaghetti code
 * No separation of concerns
@@ -157,17 +159,17 @@ class: center, middle
 
 ---
 
-# Thousands of lines of code
-
-* If you have more than 1,000 lines of code in a single file
-* Something is wrong...
-
----
 class: center, middle
 
 # Thousands of lines of code
 
 ![](images/huge-files-kirk.gif)
+
+???
+
+* If you have more than 1,000 lines of code in a single file
+* Code smell that says, split your code up better
+* Something is wrong...
 
 ---
 class: left
@@ -179,6 +181,12 @@ class: left
 * Not testable
 * Unmaintainable
 * If we were going to survive a 5-7 year mission to deep space, things had to change
+
+---
+
+class: center, middle
+
+# Deep space
 
 ---
 
@@ -202,22 +210,25 @@ class: left
 # Design Patterns
 
 * Discovered, not created over time
-* Help solve common software problems
-* Lend themselves to better architecture
-* Helps separate concerns
-* Increase testability and maintainability
+* Identify common problems
+* Lends better architecture
+* Separate concerns
+* Testability and maintainability
 
 ---
 name: design-patterns-constructor
 
 # Constructor Pattern
 
-* Built-in feature
-* JavaScript can be written in an OO-ish way
+* "class-ish"
+* Called *Constructors*
+* `new` keyword to create instances
+* Multiple files
+
+???
+
 * No such thing as "classes", but there is a prototype thing
-* You can create a `function` *constructor* which is class-ish
-* Use with the `new` keyword to create instances
-* Can separate into multiple files to help separate concerns better
+* Multiple files to help separate concerns
 
 ---
 name: design-patterns-constructor-example
@@ -238,10 +249,15 @@ var ship = new Ship(new TorpedoLauncher());
 ship.fire();
 ```
 
+* `new` creates *instances*
+* Prototype object
+
+???
+
 * `Starship` can be used as a constructor with `new`
 * You call the object returned after using `new` an **instance**
 * Generally use capitalized names to infer it can be `new`'d
-* Store methods on the constructor's **prototype** (just an object)
+* Store methods on the constructor's **prototype** (just an object) just by declaring a function, you have access to the prototype
 
 ---
 
@@ -259,6 +275,10 @@ TorpedoLauncher.prototype.fire = function() {
 };
 ```
 
+* Create in another file
+
+???
+
 * This constructor gets instantiated and passed into the `Starship` constructor
 * Because of the logical code separation, files can be separated
 
@@ -272,7 +292,7 @@ name: design-patterns-constructor-inheritance
 
 # Inheritance
 
-* Utilize inheritance to share behavior across multiple constructors
+* Share behavior
 * Create multiple types of starships based off the `Starship` constructor
 
 ---
@@ -297,6 +317,11 @@ var ship = new ConstitutionClass(weapon);
 ship.fire(); // Calls fire from the base starship class
 ```
 
+* Weird looking
+* Effective, but a lot to remember
+
+???
+
 * The `prototype` is merely an object with functions
 * Use `Object.create` to create a new object to use for setting up the prototype
 * Have to reset the constructor and call the `Weapon` constructor with `apply`
@@ -311,32 +336,24 @@ class: center, middle
 ![](images/design-patterns-mccoy.gif)
 
 ---
-name: design-patterns-constructor-woes
-
-# Better, but still a ways to go
-
-* Need something other mechanism to fetch them
-* Relies on global variables for module communication
-* Inheritance is a bit ugly
-
----
+exclude: true
 class: center, middle
 
 # Modules
 
 ---
+exclude: true
 class: left
 name: design-patterns-module
 
 # Module Patterns
 
-* Allows for "private" functions
-* Helps group code into modules
-* Makes code more maintainable
-* Basic module design pattern
+* Allows for "private" variables
+* Basic module design patterns
 * AMD and CommonJS
 
 ---
+exclude: true
 name: design-patterns-revealing-module
 
 # Revealing Module Pattern
@@ -354,6 +371,10 @@ var torpedoLauncher = (function() {
 }());
 ```
 
+* "private" shotsRemaining
+
+???
+
 * Previously the `shotsRemaining` was publicly accessible on the instance
 * Now it's encapsulated in an IIFE (Immediately Invoked Function Expression)
 * Creates a **closure** over the variable
@@ -361,6 +382,7 @@ var torpedoLauncher = (function() {
 * No need to call `new` on the API either
 
 ---
+exclude: true
 name: design-patterns-revealing-module
 
 # Revealing Prototype Pattern
@@ -385,19 +407,30 @@ var TorpedoLauncher = (function() {
 var launcher = new TorpedoLauncher();
 ```
 
+* "private" functions
+* Call `new` on it
+
+???
+
 * Similar, just return a constructor
 * `fire`, and `shotsRemaining` are private
 
 ---
+exclude: true
 name: design-patterns-namespace-intro
 
 # Namespace Pattern
 
 * Utilize JavaScript objects to store things
-* Helps minimize global variables
-* Can store anything, aka constructors, variables, modules, etc
+* Helps minimize globals
+* Store anything
+
+???
+
+aka constructors, variables, modules, etc
 
 ---
+exclude: true
 name: design-patterns-namespace
 
 # Namespace Pattern
@@ -408,11 +441,18 @@ window.NS = NS || {};
 NS.Ships = NS.Ships || {};
 NS.Owners = NS.Owners || {};
 ```
+
+* Organize with an object
+* Use the `||` operator
+
+???
+
 * If `NS` isn't defined, set it to an empty object
 * Now we only have 1 global variable `NS`
 * Can store anything we need in any namespace
 
 ---
+exclude: true
 name: design-patterns-namespace-more
 
 # Namespace Pattern
@@ -435,11 +475,10 @@ NS.Owners.starFleet = (function() {
 NS.Owners.starFleet.addShip(new NS.Ships.ConstitutionClass());
 ```
 
-* Can add things to each namespace
-
+* Add things to each namespace
 ---
 
-# Big caveats
+# Big caveat
 
 ```htm
 <script src="js/main.js"></script>
@@ -449,6 +488,20 @@ NS.Owners.starFleet.addShip(new NS.Ships.ConstitutionClass());
 ...
 ```
 
+---
+name: design-patterns-constructor-woes
+
+# Better, but still a ways to go
+
+* Inheritance is a bit ugly
+* Globals still
+* Dependency management
+* Bug prone
+* Hard to maintain
+
+???
+
+* Need something other mechanism to fetch them
 * Still relying on globals even though they're minimized
 * Have to manually maintain a dependency chain with script tags
 * If you put one out of order you can create bugs
@@ -487,6 +540,11 @@ ConstitutionClass.prototype.warp = function() {};
 module.exports = StarShip;
 ```
 
+* Require
+* Return with exports
+
+???
+
 * Utilize `require` to fetch modules
 * `module.exports` can return a constructor, or any object
 
@@ -508,6 +566,8 @@ module.exports = {
   }
 };
 ```
+
+* Require other modules
 
 ---
 
@@ -591,11 +651,11 @@ define(function(require) {
 
 ---
 
-# Problems with AMD
+# Problems with AMD and CommonJS
 
 * Requires a special type of syntax
-* Not native to the JavaScript
-* Several different implementations of it
+* Not native to the JavaScript; standardish?
+* Many implementations of AMD
 
 ---
 class: center, middle
@@ -645,6 +705,7 @@ let captainsLog = (function() {
 
   return {
     add: function(msg) {
+      // Message undefined in the "temporal dead zone"
       if (msg) {
         let message = `${date}: ${msg}`,
             date = new Date();
@@ -656,6 +717,10 @@ let captainsLog = (function() {
   }
 }());
 ```
+
+* Block scope
+
+???
 
 * Block scope instead of only function scope
 * Use `const` when you know a value won't change
@@ -677,6 +742,13 @@ i; // undefined
 * Declare variables for loops
 
 ---
+class: center, middle
+
+# No more function scope!
+
+![](images/sweet-jesus.gif)
+
+---
 
 # Arrow Functions
 
@@ -690,9 +762,10 @@ $(".warp").on("click", (e) => console.log(e.target));
 let fn = () => {};
 ```
 
-* Don't have to use `function` as often
+* `function` less often
 * Can omit `{}`'s
 * Will return the value
+* Binds `this` correctly
 
 ---
 
@@ -767,6 +840,13 @@ let { captain, firstOfficer, weapons } = options;
 * Creates variables
 
 ---
+class: center, middle
+
+# Mind Blown by new features
+
+![](images/mind-blown.gif)
+
+---
 class: left
 
 # Add some `class` to JavaScript
@@ -799,12 +879,14 @@ class StarShip {
 }
 ```
 
+???
+
 * Sugar for creating constructors
 * Much cleaner syntax
 
 ---
 
-# Prototype Functions
+# Class methods
 
 ```js
 fire(system) {
@@ -813,26 +895,35 @@ fire(system) {
 ```
 
 * No `,`'s or `:`'s
+* Prototype methods
+
+???
+
 * `this` is bound correctly
 * Methods defined on the `protptype`
 
 ---
-# constructor
+
+# Getters and Setters
 
 ```js
-constructor({
-    captain,
-    firstOfficer,
-    weaponSystems = {},
-    maxWarp = 5,
-  }) {
-  this.captain = captain;
-  this.firstOfficer = firstOfficer;
-  this.weaponSystems = weaponSystems;
+get command() {
+  return `${this.captain} and ${this.firstOfficer}`;
+}
+set crew(members) {
+  this._crew = members.map((c) => new CrewMember(c));
+}
+get crew() {
+  return this._crew;
 }
 ```
 
-* This fires when you call `new Starship`
+* No need to use `()` when accessing
+
+```js
+this.crew = ["..."];
+command; // "Jean Luc Picard and William Striker"
+```
 
 ---
 
@@ -852,18 +943,15 @@ constructor({
 }
 ```
 
+* Called when you `new Starship()`
+* Combine destructuring and defaults
+
+???
+
 * Easier way to handle options objects
 * Pull values out of the object passed in
 * Declares local variables
 * Sets defaults if they are not passed in
-
----
-
-class: center, middle
-
-# ES2015 Native Classes
-
-![](images/es6-classes-picard.gif)
 
 ---
 
@@ -876,28 +964,28 @@ class GalaxyClass extends Starship {
     super.warp(speed);
   }
 }
-let torpedos = new TorpedoLauncher(),
-    phasers = new Phasers();
-
-let enterprise = new GalaxyClass({
-  captain: "Jean Luc Picard",
-  firstOfficer: "William Riker"
-  weaponSystems: { torpedos, phasers };
-});
-
-enterprise.fire("phasers");
 ```
+
+* Easy inheritance
+
+???
 
 * Use `extends` for setting up inheritance
 * Much less confusing to inherit
 * Use `super` to call parent methods
 
 ---
+
 class: center, middle
 
-# Mind Blown
+# ES2015 Native Classes
 
-![](images/mind-blown.gif)
+![](images/es6-classes-picard.gif)
+
+---
+class: center, middle
+
+# ES6 Modules
 
 ---
 class: left
@@ -921,6 +1009,10 @@ class GalaxyClass extends StarShip {
 
 export default GalaxyClass;
 ```
+
+* Native modules!
+
+???
 
 * A native module system for JavaScript!
 * Many ways to return module
@@ -961,6 +1053,12 @@ import { log, alert } from "utils/captains_log";
 ```
 
 ---
+
+class: center, middle
+
+# "Transpile"
+
+---
 class: center, middle
 
 ### When you have dreams about new JS features and remember you still have to support IE8...
@@ -968,14 +1066,15 @@ class: center, middle
 ![](images/picard-surprise.gif)
 
 ---
-class: center, middle
-
-# Transpilers and Bundlers
-
----
 class: left
 
 # Transpilers
+
+* Grunt/Gulp
+* Transpile ES6, CoffeeScript, etc
+* Natural going forward
+
+???
 
 * With Grunt and Gulp we're used to "compiling" JavaScript now
 * Transpiling allows different syntax to compile to JavaScript
@@ -990,13 +1089,20 @@ class: left
 
 > "Make it so." Jean Luc Picard
 
+* Modern to legacy
+* Node, Grunt, Browserify, Webpack
+* Polyfills
+* Try it at [Babeljs.io](http://babeljs.io)
+
+???
+
 * Transpiles modern JavaScript to Legacy JavaScript
 * Runs with node, grunt tasks, or Browserify/Webpack type bundlers
 * Has polyfills for older browsers
-* Try it at [Babeljs.io](http://babeljs.io)
+
 
 ---
-# Example
+# Example Transpilation
 
 ```js
 class StarShip {}
@@ -1042,6 +1148,13 @@ var ship = new StarShip();
 ---
 
 # WebPack FTW
+
+* Bundle all the things
+* Flexible
+* CommonJS, AMD
+* Loaders
+
+???
 
 * A static asset bundler
 * Takes any static asset, passes it through a loader
@@ -1100,6 +1213,10 @@ module.exports = {
 };
 ```
 
+* Can have many
+
+???
+
 * Entry is an object of all the main "entries" in your app
 * Can have multiple
 * Correspond to pages, vendor bundles, etc
@@ -1117,6 +1234,11 @@ module.exports = {
   // ...
 };
 ```
+
+* Describe output
+* Placeholders
+
+???
 
 * Output is where your bundles will go
 * Can use placeholders like `[name]`
@@ -1157,10 +1279,19 @@ module: {
 * `css-loader` sends compiled CSS to...
 * `style-loader` inlines CSS
 
+---
+
+# Lazy Load
+
+```js
+// js/index.js
+
+
+```
 
 ---
 
-# Get Started
+# Run WebPack
 
 ```bash
 webpack
