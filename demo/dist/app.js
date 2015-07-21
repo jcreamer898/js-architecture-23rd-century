@@ -1,46 +1,4 @@
-/******/ (function(modules) { // webpackBootstrap
-/******/ 	// The module cache
-/******/ 	var installedModules = {};
-
-/******/ 	// The require function
-/******/ 	function __webpack_require__(moduleId) {
-
-/******/ 		// Check if module is in cache
-/******/ 		if(installedModules[moduleId])
-/******/ 			return installedModules[moduleId].exports;
-
-/******/ 		// Create a new module (and put it into the cache)
-/******/ 		var module = installedModules[moduleId] = {
-/******/ 			exports: {},
-/******/ 			id: moduleId,
-/******/ 			loaded: false
-/******/ 		};
-
-/******/ 		// Execute the module function
-/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
-
-/******/ 		// Flag the module as loaded
-/******/ 		module.loaded = true;
-
-/******/ 		// Return the exports of the module
-/******/ 		return module.exports;
-/******/ 	}
-
-
-/******/ 	// expose the modules object (__webpack_modules__)
-/******/ 	__webpack_require__.m = modules;
-
-/******/ 	// expose the module cache
-/******/ 	__webpack_require__.c = installedModules;
-
-/******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "";
-
-/******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(0);
-/******/ })
-/************************************************************************/
-/******/ ([
+webpackJsonp([0],[
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -48,11 +6,13 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-	var _shipsGalaxy_class = __webpack_require__(1);
+	var _utilsLogger = __webpack_require__(1);
+
+	var _shipsGalaxy_class = __webpack_require__(2);
 
 	var _shipsGalaxy_class2 = _interopRequireDefault(_shipsGalaxy_class);
 
-	var _weaponsTorpedo_launcher = __webpack_require__(3);
+	var _weaponsTorpedo_launcher = __webpack_require__(4);
 
 	var _weaponsTorpedo_launcher2 = _interopRequireDefault(_weaponsTorpedo_launcher);
 
@@ -63,10 +23,14 @@
 	});
 
 	enterprise.fire("torpedos");
+
+	(0, _utilsLogger.log)("Torpedoes fired, prepare for warp...");
+
 	enterprise.warp();
 
 /***/ },
-/* 1 */
+/* 1 */,
+/* 2 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -85,7 +49,7 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
 
-	var _starship = __webpack_require__(2);
+	var _starship = __webpack_require__(3);
 
 	var _starship2 = _interopRequireDefault(_starship);
 
@@ -119,7 +83,7 @@
 	// ...
 
 /***/ },
-/* 2 */
+/* 3 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -198,7 +162,7 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 3 */
+/* 4 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -234,4 +198,4 @@
 	module.exports = exports["default"];
 
 /***/ }
-/******/ ]);
+]);

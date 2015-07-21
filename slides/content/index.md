@@ -943,15 +943,15 @@ export default function() {
 # export multiple
 
 ```js
-// utils/captains_log.js
+// utils/logger.js
 
 export function alert() {
 
-};
+}
 
 export function log() {
 
-};
+}
 ```
 
 * Use destructuring to import
@@ -1191,7 +1191,7 @@ class: left
 
 ```js
 entry: {
-  "home": "./js/index",
+  "app": "./js/index",
   "starfleet": "./js/about/index",
   "captainsLog": "./js/captains_log/index"
 },
@@ -1241,4 +1241,4 @@ class: center, middle
 
 ### [@jcreamer898](http://twitter.com/jcreamer898)
 
-![](images/picard-clap.gif)
+![](images/livelong.gif)
