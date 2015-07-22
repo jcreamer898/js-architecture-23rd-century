@@ -64,7 +64,9 @@ webpackJsonp([0],[
 
 	  _createClass(GalaxyClass, [{
 	    key: "deflectorShields",
-	    value: function deflectorShields() {}
+	    value: function deflectorShields() {
+	      // ...
+	    }
 	  }, {
 	    key: "warp",
 	    value: function warp(speed) {
@@ -79,8 +81,6 @@ webpackJsonp([0],[
 
 	exports["default"] = GalaxyClass;
 	module.exports = exports["default"];
-
-	// ...
 
 /***/ },
 /* 3 */

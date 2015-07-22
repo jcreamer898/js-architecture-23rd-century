@@ -330,6 +330,31 @@ ship.fire(); // Calls fire from the base starship class
 * A little lolwut going on and you'll have to google this every time
 
 ---
+name: design-patterns-namespace
+
+# Namespace Pattern
+
+```js
+// main.js
+window.NS = NS || {};
+NS.Ships = NS.Ships || {};
+NS.Owners = NS.Owners || {};
+
+NS.Ships.ConsitutionClass = function() {
+  // ...
+};
+```
+* Eliminates multiple globals
+* Organize with an object
+* Use the `||` operator
+
+???
+
+* If `NS` isn't defined, set it to an empty object
+* Now we only have 1 global variable `NS`
+* Can store anything we need in any namespace
+
+---
 name: design-patterns-constructor-wins
 class: center, middle
 
@@ -433,28 +458,6 @@ aka constructors, variables, modules, etc
 
 ---
 exclude: true
-name: design-patterns-namespace
-
-# Namespace Pattern
-
-```js
-// main.js
-window.NS = NS || {};
-NS.Ships = NS.Ships || {};
-NS.Owners = NS.Owners || {};
-```
-
-* Organize with an object
-* Use the `||` operator
-
-???
-
-* If `NS` isn't defined, set it to an empty object
-* Now we only have 1 global variable `NS`
-* Can store anything we need in any namespace
-
----
-exclude: true
 name: design-patterns-namespace-more
 
 # Namespace Pattern
@@ -503,7 +506,6 @@ name: design-patterns-constructor-woes
 # Other issues
 
 * Inheritance is a bit ugly
-* Globals still
 * Dependency management
 * Bug prone
 * Hard to maintain
