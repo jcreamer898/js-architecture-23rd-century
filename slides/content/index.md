@@ -23,9 +23,8 @@ name: agenda
 # Agenda
 
 1. History
-1. Design/Architecture patterns
 1. AMD/CommonJS
-1. 24th Century ES6, classes and modules
+1. ES6 syntax, classes and modules
 1. How to use now! Hint hint: WebPack + Babel FTW
 
 ???
@@ -196,16 +195,18 @@ class: center, middle
 * JavaScript has grown along with them
 * Always bet on JavaScript
 * Single page applications get huge
-* Need for better architecture
+* Need to organize code better
 
 ---
 class: center, middle
+exclude: true
 
 # Design Patterns
 
 ---
 name: design-patterns
 class: left
+exclude: true
 
 # Design Patterns
 
@@ -220,6 +221,7 @@ name: design-patterns-constructor
 
 # Constructor Pattern
 
+* Can help separate logic
 * "class-ish"
 * Called *Constructors*
 * `new` keyword to create instances
@@ -487,11 +489,18 @@ NS.Owners.starFleet.addShip(new NS.Ships.ConstitutionClass());
 ...
 ...
 ```
+---
+
+class: center, middle
+
+# Organize with script tags?!
+
+![](images/namespace-spock.gif)
 
 ---
 name: design-patterns-constructor-woes
 
-# Better, but still a ways to go
+# Other issues
 
 * Inheritance is a bit ugly
 * Globals still
@@ -508,12 +517,9 @@ name: design-patterns-constructor-woes
 * LOTS of script tags potentially if you want to properly separate concerns
 
 ---
-
 class: center, middle
 
-# Organize with script tags?!
-
-![](images/namespace-spock.gif)
+# Modules
 
 ---
 
@@ -523,6 +529,8 @@ class: left
 
 * A group got together and decided we needed a module specification
 * Node.js uses this type of module
+* No globals
+* Easier to manage dependencies
 
 ---
 
@@ -677,6 +685,12 @@ class: center, middle
 
 > "TO BOLDLY GO WHERE NO MAN HAS GONE BEFORE..."
 
+* JavaScript finally evolving
+* ES5 -> Harmony -> ES6 -> ES2015
+* New syntax and features that help create better native architecture
+
+???
+
 * Several years in the making
 * Been on ES5 for a long time now. Since December 3, 2009.
 * ES Harmony became 6 which became 2015 (June it's "[done](https://people.mozilla.org/~jorendorff/es6-draft.html)")
@@ -694,6 +708,13 @@ let message = `${date}: ${msg}`,
 ```
 
 * No more string addition
+
+---
+class: center, middle
+
+# No more string addition
+
+![](images/datasmile.gif)
 
 ---
 
@@ -941,6 +962,13 @@ constructor({
   this.weaponSystems = weaponSystems;
   this.maxWarp = maxWarp;
 }
+//...
+
+new Starship({
+  captain: "Jean Luc Picard",
+  firstOfficer: "William Riker",
+  weapons: { torpedos, phasers }
+});
 ```
 
 * Called when you `new Starship()`
@@ -967,6 +995,7 @@ class GalaxyClass extends Starship {
 ```
 
 * Easy inheritance
+* Super for parent
 
 ???
 
@@ -1147,7 +1176,7 @@ var ship = new StarShip();
 
 ---
 
-# WebPack FTW
+# WebPack + Babel FTW
 
 * Bundle all the things
 * Flexible
@@ -1213,7 +1242,7 @@ module.exports = {
 };
 ```
 
-* Can have many
+* Can have many entries
 
 ???
 
@@ -1229,14 +1258,14 @@ module.exports = {
 module.exports = {
   output: {
     path: "./dist",
-    filename: "[name].js"
+    filename: "[name].js" // app.js, entry1.js, etc...
   },
   // ...
 };
 ```
 
 * Describe output
-* Placeholders
+* `[name]`, `[hash]`, and `[chunkhash]`
 
 ???
 
@@ -1258,9 +1287,16 @@ module: {
 }
 ```
 
+* Test file types
+* Pass through loaders
+
+???
+
+* Many different types of loaders
 * Pass in an array of loaders
 * Use `test` to take any file with that extension and push it through the loader
 * Here we're using the `babel-loader`
+* Query params for options
 ---
 
 # Loaders
@@ -1280,13 +1316,14 @@ module: {
 * `style-loader` inlines CSS
 
 ---
+exclude: true
 
 # Lazy Load
 
 ```js
 // js/index.js
 
-
+TODO TODO
 ```
 
 ---
@@ -1300,11 +1337,6 @@ webpack
 * Now just run it!
 * Should have an output at `dist`
 * Transpiled JS
-
----
-class: middle, center
-
-# Demo
 
 ---
 
@@ -1337,6 +1369,7 @@ entry: {
 * Many different webpack Plugins
 * Easy to install and use
 * `CommonsChunk`, `Uglify`, `ExtractTextPlugin`
+* [Many more](http://webpack.github.io/docs/plugins.html)
 
 
 ---
@@ -1357,6 +1390,11 @@ plugins: [new webpack.optimize.CommonsChunkPlugin({
 * Create a "common" bundle
 * Can default with jQuery, etc
 * Will extract common modules
+
+---
+class: middle, center
+
+# Demo
 
 ---
 
