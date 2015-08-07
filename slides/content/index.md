@@ -13,8 +13,12 @@ class: center, middle
 
 <img src="images/lonelyplanet_bw.png" style="width: 10em" />
 
-* Love JavaScript
+* Love JavaScript, tweet at [@jcreamer898](http://twitter.com/jcreamer898), blog at [jonathancreamer.com](http://jonathancreamer.com)
 * Nashville, TN
+
+???
+
+Code + Beach === me
 
 ---
 
