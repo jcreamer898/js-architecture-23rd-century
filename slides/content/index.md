@@ -27,7 +27,8 @@ name: agenda
 # Agenda
 
 1. History
-1. AMD/CommonJS
+1. Patterns
+1. Module systems
 1. ES6 syntax, classes and modules
 1. How to use now! Hint hint: WebPack + Babel FTW
 
@@ -87,6 +88,7 @@ var ship = new Starship(); // Relies on a global
 ```
 
 * Bad practice
+* Communicate via `window`
 * Frustrating to debug
 
 ???
@@ -200,6 +202,10 @@ class: center, middle
 * Always bet on JavaScript
 * Single page applications get huge
 * Need to organize code better
+
+???
+
+One way to help organization is by separating into logical groups/modules
 
 ---
 class: center, middle
@@ -1415,5 +1421,6 @@ class: center, middle
 # Thanks
 
 ### [@jcreamer898](http://twitter.com/jcreamer898)
+### [jonathancreamer.com](http://jonathancreamer.com)
 
 ![](images/livelong.gif)
