@@ -5,16 +5,26 @@ class: center, middle
 ![](images/enterprise.jpg)
 
 ---
+class: center, middle
 
 # whoami
 
-* Jonathan Creamer
-* Senior Front End Engineer at Lonely Planet
+### Jonathan Creamer
+
+<img src="images/family.jpg" style="width: 80%;" />
+
+---
+
+# whoami
+
+* Currently Senior Front End Engineer at [Lonely Planet](http://lonelyplanet.com)
+* Past JavaScript Engineer appendTo
+* Nashville, TN
 
 <img src="images/lonelyplanet_bw.png" style="width: 10em" />
 
 * Love JavaScript, tweet at [@jcreamer898](http://twitter.com/jcreamer898), blog at [jonathancreamer.com](http://jonathancreamer.com)
-* Nashville, TN
+* [Microsoft IE MVP](https://mvp.microsoft.com/en-us/MyProfile/Preview?previewAs=Public), [Telerik Developer Expert](http://developer.telerik.com/community/developer-experts/)
 
 ???
 
@@ -31,6 +41,8 @@ name: agenda
 1. Module systems
 1. ES6 syntax, classes and modules
 1. How to use now! Hint hint: WebPack + Babel FTW
+
+http://bit.ly/cob-js-23
 
 ???
 
@@ -1414,6 +1426,8 @@ class: middle, center
 
 * [WebPack](http://webpack.github.io)
 * Awesome Pete Hunt [Instgram talk](https://www.youtube.com/watch?v=VkTCL6Nqm6Y)
+* Link to Slides -> http://bit.ly/cob-js-23
+* GitHub Repo -> http://bit.ly/cob-js-23-repo
 
 ---
 class: center, middle
